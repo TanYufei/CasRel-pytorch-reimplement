@@ -55,6 +55,8 @@ class Casrel(nn.Module):
         encoded_text = self.get_encoded_text(token_ids, mask)
         # [batch_size, seq_len, 1]
         pred_sub_heads, pred_sub_tails = self.get_subs(encoded_text)
+        # 在训练过程中，这里的实现方式和transformer 的teacher force 一致，以真实实体的位置做为下一层的输入
+        # 而不是用预测实体位置的结果：pred_sub_heads, pred_sub_tails
         # [batch_size, 1, seq_len]
         sub_head_mapping = data['sub_head'].unsqueeze(1)
         # [batch_size, 1, seq_len]
